@@ -13,7 +13,11 @@
   
   ## 4. Pembuatan Reverse Domain
   
+  Soal 4 meminta untuk membuat sebuah Reverse Domain
+  
   ## 5. Pembuatan DNS Slave
+  
+  Soal 5 meminta untuk membuat suatu Reverse Domain pada Water7 yang merupakan DNS Slave, supaya tetap bisa menghubungi Franky jika server EniesLobby rusak. 
   
   ## 6. Pendelegasian Subdomain
   

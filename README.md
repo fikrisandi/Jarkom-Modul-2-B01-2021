@@ -328,7 +328,48 @@ soal 9, Luffy juga membutuhkan agar url `www.franky.b01.com/index.php/home` dapa
 
 ![8 2](https://user-images.githubusercontent.com/55092974/139527216-838c00ef-5319-4d2c-a5b3-ccb644b2c0e4.JPG)
   ## 10. Penyimpanan Aset pada Subdomain
-  
+- Menambahkan file configurasi pada folder `/etc/apache2/sites-available` dengan nama `super.franky.b01.com.conf`
+### Skypie
+```bash
+<VirtualHost *:80>
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/super.franky.b01.com
+        ServerName super.franky.b01.com
+        ServerAlias www.super.franky.b01.com
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+```
+
+- Download file requirement menggunakan `wget`.
+
+```bash
+wget https://github.com/FeinardSlim/Praktikum-Modul-2-Jarkom/raw/main/super.franky.zip
+```
+- Unzip file requirement dan disimpan dalam folder `/var/www/super.franky.b01.com`
+
+`unzip  super.franky.zip -d /var/www`
+
+- Kemudian rename `mv /var/www/super.franky /var/www/super.franky.b01.com`
+
+![10 1](https://user-images.githubusercontent.com/55092974/139528136-26f29d4e-cc27-4161-870d-3620162ed0e3.JPG)
+
+- Kemudian aktifkan `super.franky.b01.com` dengan command
+```bash
+cd /etc/apache2/sites-available/
+a2ensite super.franky.b01.com.conf
+cd
+```
+- Lakukan restart apache `service apache2 restart`
+
+### Loguetown
+- Pada `loguetown` buka `super.franky.b01.com` menggunakan lynx -> `lynx super.franky.b01.com`
+
+![10 2](https://user-images.githubusercontent.com/55092974/139528148-13e36472-8724-49a2-a689-055250179ec0.JPG)
+
   ## 11. Directory Listing
   
   ## 12. Persiapan Error File

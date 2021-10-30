@@ -174,7 +174,32 @@ super		IN	A	192.177.2.3 ; IP Skypie
   Soal 5 meminta untuk membuat suatu Reverse Domain pada Water7 yang merupakan DNS Slave, supaya tetap bisa menghubungi Franky jika server EniesLobby rusak. 
   
   ## 6. Pendelegasian Subdomain
-  
+
+Terdapat subdomain mecha.franky.yyy.com dengan alias www.mecha.franky.yyy.com yang didelegasikan dari EniesLobby ke Water7 dengan IP menuju ke Skypie dalam folder sunnygo.
+	
+Di EniesLobby:
+
+ mengedit file `/etc/bind/kaizoku/franky.b01.com` dengan menambahkan:
+
+```bash
+        ns2     IN      A       192.194.2.3 ; IP Water7
+        mecha   IN      NS      ns2
+```
+Kemudian mengedit file `/etc/bind/named.conf.options` dengan comment bagian `dnssec-validation auto;` dan menambahkan line `allow-query{any;};`.<br><br>
+	
+Di Water7:
+
+ edit file `/etc/bind/named.conf.options` dengan comment bagian `dnssec-validation auto;` dan menambahkan line `allow-query{any;};<br><br>
+Kemudian menambahkan zone pada `/etc/bind/named.conf.local` dengan menambahkan:
+
+```bash
+    zone "mecha.franky.b01.com" {
+            type master;
+            file "/etc/bind/sunnygo/mecha.franky.b01.com";
+    };
+```
+buat folder sunnygo di `/etc/bind`.Copy `/etc/bind/db.local` menjadi `/etc/bind/sunnygo/mecha.franky.b01.com`. ganti SOA menjadi `mecha.franky.b01.com.`, NS `mecha.franky.b01.com.`, record A yang mengarah ke `IP Skypie`, dan CNAME `www` pada `mecha.franky.b01.com.	
+
   ## 7. Subdomain dari Water7
   
   ## 8. Konfigurasi Webserver

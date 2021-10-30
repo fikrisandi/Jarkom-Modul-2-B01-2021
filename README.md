@@ -88,7 +88,52 @@ Kemudian untuk mengecek apakah sudah dapat terkoneksi ke internet, ketikkan ping
   ![1 2](https://user-images.githubusercontent.com/55092974/139522333-0d0728b4-f45e-4e59-81a0-378543812210.JPG)
   
   ## 2.  Pembuatan Website Utama
-  
+soal 2 Luffy ingin menghubungi Franky yang berada di EniesLobby dengan denden mushi. Kalian diminta Luffy untuk membuat website utama dengan mengakses `franky.b01.com` dengan alias `www.franky.b01.com` pada folder kaizoku. <br>
+
+- Pertama lakukan perintah  `apt-get update` dan `apt-get install bind9 -y` pada `EniesLobby` <br>
+
+- Kemudian lakukan `nano /etc/bind/named.conf.local` <br>
+
+- Kemudian Edit root dan localhost menjadi franky.b01.com (b01 nomer kelompok)
+
+```bash
+echo 'zone "franky.b01.com" {
+        type master;
+        file "/etc/bind/kaizoku/franky.b01.com";
+};
+```
+
+- kemudian membuat folder kaizoku dengan cara <br>
+
+`mkdir /etc/bind/kaizoku` <br>
+
+- lalu Copykan file db.local pada path `/etc/bind` ke dalam folder kaizoku yang baru saja dibuat dan ubah namanya menjadi `franky.b01.com` seperti dibawah ini : <br>
+
+`cp /etc/bind/db.local /etc/bind/kaizoku/franky.b01.com` <br>
+
+- Kemudian buka file franky.b01.com dan edit seperti gambar berikut dengan IP EniesLobby. `nano /etc/bind/kaizoku/franky.b01.com`
+```bash
+;BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     franky.B01.com. root.franky.B01.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@               IN      NS      franky.b01.com.
+@               IN      A       192.177.2.2 ;
+www             IN      CNAME   franky.b01.com.
+```
+- lalu `service bind9 restart`
+
+- kemudian cek ping `franky.b01.com` atau `www.franky.b01.com` disini menggunankan client `Loguetown` seperti gambar berikut, dan IPnya mengarah ke EniesLobby <br>
+
+![2 1](https://user-images.githubusercontent.com/55092974/139525417-bccfed28-ad35-4648-be0e-6906cf5e2112.JPG)
+	
+	
   ## 3. Pembuatan Subdomain
   
   ## 4. Pembuatan Reverse Domain

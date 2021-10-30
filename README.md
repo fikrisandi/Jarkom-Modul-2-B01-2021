@@ -486,4 +486,6 @@ cd
   
   
   ### Kendala yang dialami
-  
+  - Nomer 2 Tidak bisa alias waktu praktikum
+  - Nomer 8 erorr terus tidak muncul bounty
+  - Nomer 14 Erorr juga

@@ -167,11 +167,47 @@ super		IN	A	192.177.2.3 ; IP Skypie
   ## 4. Pembuatan Reverse Domain
 
   
-  Soal 4 meminta untuk membuat sebuah Reverse Domain
+  Soal 4 meminta untuk membuat sebuah Reverse Domain untuk domain utama<br>
+	tambahkan zone pada `/etc/bind/named.conf.local` dengan menambahkan:
+
+```bash
+    zone "2.177.192.in-addr.arpa" {
+            type master;
+            file "/etc/bind/kaizoku/2.177.192.in-addr.arpa";
+    };
+```
+kemudian copy `/etc/bind/db.local` menjadi `/etc/bind/kaizoku/2.177.192.in-addr.arpa`. ganti SOA menjadi `franky.b01.com.`,`2.177.192.in-addr.arpa.` yang memiliki NS `franky.b01.com.`, dan `2` sebagai PTR `franky.b01.com.`
+
   
   ## 5. Pembuatan DNS Slave
   
-  Soal 5 meminta untuk membuat suatu Reverse Domain pada Water7 yang merupakan DNS Slave, supaya tetap bisa menghubungi Franky jika server EniesLobby rusak. 
+  Soal 5 meminta untuk membuat suatu Reverse Domain pada Water7 yang merupakan DNS Slave, supaya tetap bisa menghubungi Franky jika server EniesLobby rusak. <br>
+	
+Di EniesLobby:
+
+ edit zone `franky.b01.com` pada `/etc/bind/named.conf.local` menjadi:
+
+```bash
+    zone "franky.b01.com" {
+            type master;
+            notify yes;
+            also-notify { 192.177.2.3; };
+            allow-transfer { 192.177.2.3; };
+            file "/etc/bind/kaizoku/franky.b01.com";
+    };
+```
+Di Water7:
+Jalankan command `apt-get update` dan `apt-get install bind9 -y` untuk menginstall bind9
+
+edit `/etc/bind/named.conf.local` dengan menambahkan :
+
+```bash
+    zone "franky.b01.com" {
+        type slave;
+        masters { 192.177.2.2; };
+        file "/var/lib/bind/franky.b01.com";
+    };
+```
   
   ## 6. Pendelegasian Subdomain
 

@@ -400,7 +400,40 @@ cd
 ![11 1](https://user-images.githubusercontent.com/55092974/139528532-ad451ac0-5ac4-4cf1-97cb-32b31883172c.JPG)
   
   ## 12. Persiapan Error File
-  
+- Tidak hanya itu, Luffy juga menyiapkan error file `404.html` pada folder `/error` untuk mengganti error kode pada apache.
+
+- Pertama menambahkan konfigurasi pada `/etc/apache2/sites-available/super.franky.b01.com.conf`
+
+```bash
+<VirtualHost *:80>
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/super.franky.b01.com
+        ServerName super.franky.b01.com
+        ServerAlias www.super.franky.b01.com
+
+        <Directory /var/www/super.franky.b01.com/public>
+                Options +Indexes
+        </Directory>
+        <Directory /var/www/super.franky.b01.com/public/*>
+                Options -Indexes
+        </Directory>
+	# Menambahkan file ini dari file sebelumnya
+        ErrorDocument 404 /error/404.html
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+```
+- Lalu lakukan restart apache dengan cara `service apache2 restart`
+
+### Loguetown
+- Pada `loguetown` buka `lynx super.franky.b01.com/pqqq`
+
+![12 1](https://user-images.githubusercontent.com/55092974/139528782-3cac2f23-57c9-47d8-b6dc-66bc5de74859.JPG)
+
+
   ## 13. Pembuatan Konfigurasi Virtual Host
   
   ## 14. Pembatasan Akses Port

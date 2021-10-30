@@ -135,8 +135,37 @@ www             IN      CNAME   franky.b01.com.
 	
 	
   ## 3. Pembuatan Subdomain
-  
+soal 3 membuat subdomain `super.franky.b01.com` dengan alias `www.super.franky.b01.com` yang diatur DNS nya di EniesLobby dan mengarah ke Skypie <br>
+	
+- Melanjutkan nomer 2 dengan cara edit `nano /etc/bind/kaizoku/franky.b01.com` <br>
+
+```bash
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     franky.B01.com. root.franky.B01.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@               IN      NS      franky.b01.com.
+@               IN      A       192.177.2.2 ;
+#Menambahkan dibawah ini
+www             IN      CNAME   franky.b01.com.
+super		IN	A	192.177.2.3 ; IP Skypie
+```
+
+- Lalu Restart service bind dengan cara `service bind9 restart`
+
+- kemudian cek ping `super.franky.b01.com` atau `www.super.franky.b01.com` di client `Loguetown` seperti gambar berikut : <br>
+
+![3 1](https://user-images.githubusercontent.com/55092974/139526226-39e7403c-b307-44cc-a08e-1b6672c79fc7.JPG)
+	
+	
   ## 4. Pembuatan Reverse Domain
+
   
   Soal 4 meminta untuk membuat sebuah Reverse Domain
   

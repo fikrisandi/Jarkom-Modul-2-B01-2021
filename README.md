@@ -371,6 +371,33 @@ cd
 ![10 2](https://user-images.githubusercontent.com/55092974/139528148-13e36472-8724-49a2-a689-055250179ec0.JPG)
 
   ## 11. Directory Listing
+- Akan tetapi, pada folder `/public`, Luffy ingin hanya dapat melakukan directory listing saja.
+
+### Skypie
+- Pertama menambahkan konfigurasi pada `/etc/apache2/sites-available/super.franky.b01.com.conf`
+```bash
+<VirtualHost *:80>
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/super.franky.b01.com
+        ServerName super.franky.b01.com
+        ServerAlias www.super.franky.b01.com
+	# Menambahkan yang dibawah ini
+        <Directory /var/www/super.franky.b01.com/public>
+                Options +Indexes
+        </Directory>
+        <Directory /var/www/super.franky.b01.com/public/*>
+                Options -Indexes
+        </Directory>
+
+</VirtualHost>
+```
+- Lakukan restart apache dengan cara `service apache2 restart`
+
+### Loguetown
+- Testing dengan cara `lynx super.franky.b01.com/public`
+
+![11 1](https://user-images.githubusercontent.com/55092974/139528532-ad451ac0-5ac4-4cf1-97cb-32b31883172c.JPG)
   
   ## 12. Persiapan Error File
   

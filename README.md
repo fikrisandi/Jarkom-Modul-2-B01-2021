@@ -298,12 +298,35 @@ cd
 ### Logouetown
 
 - Pada `loguetown` install lynx `apt-get install lynx -y`
-- Buka `www.franky.b01.com` menggunakan lynx di client Loguetown atau Alabasta.
+- Buka `www.franky.b01.com` menggunakan lynx di client Loguetown atau Alabasta -> `lynx www.franky.b01.com`.
 
 ![8 2](https://user-images.githubusercontent.com/55092974/139527216-838c00ef-5319-4d2c-a5b3-ccb644b2c0e4.JPG)
 	
   ## 9. Pengubahan URL
-  
+soal 9, Luffy juga membutuhkan agar url `www.franky.b01.com/index.php/home` dapat menjadi menjadi `www.franky.b01.com/home`.
+
+- Menambahkan configurasi pada `/etc/apache2/sites-available/franky.b01.com.conf`
+```bash
+<VirtualHost *:80>
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/franky.b01.com
+        ServerName franky.b01.com
+        ServerAlias www.franky.b01.com
+	#Menambahkan Alias dibawah ini
+        Alias "/home" "/var/www/franky.b01.com/index.php/home"
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+```
+- lakukan Restart apache dengan cara `service apache2 restart`
+
+### Loguetown
+- Lakukan perintah untuk pengecekan dengan cara `www.franky.b01.com/home` menggunakan lynx yaitu dengan cara `lynx www.franky.b01.com/home`.
+
+![8 2](https://user-images.githubusercontent.com/55092974/139527216-838c00ef-5319-4d2c-a5b3-ccb644b2c0e4.JPG)
   ## 10. Penyimpanan Aset pada Subdomain
   
   ## 11. Directory Listing

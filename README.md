@@ -223,7 +223,85 @@ menambahkan zone pada `/etc/bind/named.conf.local` dengan menambahkan:
 copy `/etc/bind/db.local` menjadi `/etc/bind/sunnygo/general.mecha.franky.b01.com`. ganti SOA menjadi `general.mecha.franky.b01.com.`, NS `general.mecha.franky.b01.com.`, record A yang mengarah ke `IP Skypie`, dan CNAME `www` pada `general.mecha.franky.b01.com.`.
   
   ## 8. Konfigurasi Webserver
-  
+ Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver `www.franky.b01.com`. Pertama, luffy membutuhkan webserver dengan DocumentRoot pada `/var/www/franky.b01.com`.
+### EniesLobby
+- Pertama lakukan edit file `/etc/bind/kaizoku/franky.b01.com` mengganti IPnya dari `EniesLobby` ke `Skypie` seperti pada gambar berikut:
+```bash
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     franky.B01.com. root.franky.B01.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@               IN      NS      franky.b01.com.
+# ganti IP ke Skypie
+@               IN      A       192.177.2.4 ;
+www             IN      CNAME   franky.b01.com.
+; Nomer 3 Subdomain dan Alias mengarah ke skypie
+super           IN      A       192.177.2.4 ; Ip skypie
+www.super       IN      CNAME   super.franky.b01.com.
+ns2             IN      A       192.177.2.3;	
+```
+- lalu `jalankan service bind9 restart`
+
+### Skypie
+- lakukan install aplikasi yang diperlukan yaitu `apache, PHP, dan libapache2-mod-php7.0.` pada `skypie`
+
+```bash
+apt-get update
+apt-get install apache2 -y
+apt-get install php -y
+apt-get install libapache2-mod-php7.0 -y
+```
+- Kemudian menambahkan file configurasi pada folder `/etc/apache2/sites-available` dengan nama `franky.b01.com.conf`
+
+```bash
+<VirtualHost *:80>
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/franky.b01.com
+        ServerName franky.b01.com
+        ServerAlias www.franky.b01.com
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+```
+- Lalu download file requirement menggunakan `wget`.
+
+```bash
+wget https://github.com/FeinardSlim/Praktikum-Modul-2-Jarkom/raw/main/franky.zip
+```
+- Lalu membuat folder `franky.b01.com` dalam folder `/var/www/` 
+```bash
+mkdir /var/www/franky.b01.com
+```
+- Kemudian unzip file requirement dan disimpan dalam folder `/var/www/franky.b01.com`
+```bash
+unzip -j  franky.zip -d /var/www/franky.b01.com
+```
+![8 1](https://user-images.githubusercontent.com/55092974/139527155-a35f0cf8-af9b-4fcd-b6e8-cd1f71baa542.JPG)
+
+- lalu aktifkan `franky.b01.com` dengan command
+```bash
+cd /etc/apache2/sites-available/
+a2ensite franky.b01.com.conf
+cd
+```
+- Restart apache `service apache2 restart`
+
+### Logouetown
+
+- Pada `loguetown` install lynx `apt-get install lynx -y`
+- Buka `www.franky.b01.com` menggunakan lynx di client Loguetown atau Alabasta.
+
+![8 2](https://user-images.githubusercontent.com/55092974/139527216-838c00ef-5319-4d2c-a5b3-ccb644b2c0e4.JPG)
+	
   ## 9. Pengubahan URL
   
   ## 10. Penyimpanan Aset pada Subdomain

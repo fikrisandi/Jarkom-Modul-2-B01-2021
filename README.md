@@ -435,6 +435,46 @@ cd
 
 
   ## 13. Pembuatan Konfigurasi Virtual Host
+- Luffy juga meminta Nami untuk dibuatkan konfigurasi virtual host. Virtual host ini bertujuan untuk dapat mengakses file asset `www.super.franky.b01.com/public/js` menjadi `www.super.franky.b01.com/js`.
+
+### Skypie
+- Pertama Menambahkan konfigurasi pada `/etc/apache2/sites-available/super.franky.b01.com.conf`
+```bash
+<VirtualHost *:80>
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/super.franky.b01.com
+        ServerName super.franky.b01.com
+        ServerAlias www.super.franky.b01.com
+
+        <Directory /var/www/super.franky.b01.com/public>
+                Options +Indexes
+        </Directory>
+        <Directory /var/www/super.franky.b01.com/public/*>
+                Options -Indexes
+        </Directory>
+
+        ErrorDocument 404 /error/404.html
+	
+	# Menambahkan file dibawah ini
+        <Directory /var/www/super.franky.b01.com/public/js>
+                Options +Indexes
+        </Directory>
+	
+        Alias "/js" "/var/www/super.franky.b01.com/public/js"
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+```
+- Lalu lakukan restart apache dengan cara `service apache2 restart`
+
+### Loguetown
+- Pada `loguetown` buka `lynx .super.franky.b01.com/js`
+
+![13 1](https://user-images.githubusercontent.com/55092974/139529355-f68771c4-8550-464e-8b7b-70c74ee35282.JPG)
+
   
   ## 14. Pembatasan Akses Port
   
